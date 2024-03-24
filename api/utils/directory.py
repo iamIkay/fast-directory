@@ -1,4 +1,3 @@
-from db.db_setup import db_dependency
 from db.models.directory import Directory
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession,async_sessionmaker
@@ -9,7 +8,7 @@ from db.models.user import User
 async def get_directories(db: async_sessionmaker[AsyncSession]):
     statement = select(Directory).order_by(Directory.id)
     db_dirs = await db.execute(statement)
-    return db_dirs
+    return db_dirs.scalars()
 
 
 async def create_directory(db: async_sessionmaker[AsyncSession], data: DirectoryCreate):
